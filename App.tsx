@@ -12,7 +12,10 @@ const Stack = createNativeStackNavigator<StackParamsList>();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={globalScreen}>
+      <Stack.Navigator
+        screenOptions={globalScreen}
+        // initialRouteName="Home"
+      >
         <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
         <Stack.Screen name="Register" component={RegisterScreen}></Stack.Screen>
         <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
