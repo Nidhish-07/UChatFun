@@ -2,12 +2,28 @@ import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import React from "react";
 import { Button, Input, Image } from "@rneui/themed";
 import { StatusBar } from "expo-status-bar";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { StackParamsList } from "../navigation/types";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase.js";
 
 type Props = {};
 
-const LoginScreen = (props: Props) => {
+type NavProps = NativeStackScreenProps<StackParamsList>;
+const LoginScreen = ({ navigation }: NavProps) => {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+
+  React.useEffect(() => {
+    const unsubscribe=onAuthStateChanged(auth, (authUser) => {
+      if (authUser) {
+        navigation.replace("Home");
+      }
+    });
+
+    return unsubscribe
+  }, []);
 
   const signIn = () => {};
   return (
@@ -23,21 +39,28 @@ const LoginScreen = (props: Props) => {
           autoFocus
           textContentType="emailAddress"
           value={email}
-          onChangeText={(text) => setEmail(text)}
+          onChangeText={(text: string) => setEmail(text)}
         />
         <Input
-          placeholder="Email"
+          placeholder="Password"
           secureTextEntry
           textContentType="password"
           value={password}
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={(text: string) => setPassword(text)}
         />
       </View>
-      <Button title={"Login"} style={styles.button} onPress={signIn}>
+      <Button title={"Login"} style={styles.button} onPress={signIn} raised>
         Login
       </Button>
-      <Button title={"Register"} type="outline" style={styles.button}>
-        Login
+      <Button
+        title={"Register"}
+        type="outline"
+        style={styles.button}
+        onPress={() => {
+          return navigation.navigate("Register");
+        }}
+      >
+        Register
       </Button>
       <View style={{ height: 100 }}></View>
     </KeyboardAvoidingView>
