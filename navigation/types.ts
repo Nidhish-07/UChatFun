@@ -1,5 +1,6 @@
 export type StackParamsList = {
-  Login: undefined,
-  Register: undefined,
-  Home:undefined
+  Login: undefined;
+  Register: undefined;
+  Home: undefined;
+  AddChat: undefined;
 };

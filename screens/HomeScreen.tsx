@@ -13,6 +13,7 @@ import { StackParamsList } from "../navigation/types";
 import { Avatar } from "@rneui/themed";
 import { auth } from "../firebase.js";
 import { signOut } from "firebase/auth";
+import { Ionicons } from "@expo/vector-icons";
 
 type Props = {};
 
@@ -39,6 +40,25 @@ const HomeScreen = ({ navigation }: NavProps) => {
               rounded
               source={{ uri: auth?.currentUser?.photoURL?.toString() }}
             />
+          </TouchableOpacity>
+        </View>
+      ),
+      headerRight: () => (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: 60,
+          }}
+        >
+          <TouchableOpacity activeOpacity={0.4}>
+            <Ionicons name="camera-outline" size={24} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.4}
+            onPress={() => navigation.navigate("AddChat")}
+          >
+            <Ionicons name="pencil-outline" size={24} color="black" />
           </TouchableOpacity>
         </View>
       ),
