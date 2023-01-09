@@ -3,14 +3,19 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 import { globalScreen } from "./utils/STYLE";
+import { StackParamsList } from "./navigation/types";
+import HomeScreen from "./screens/HomeScreen";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<StackParamsList>();
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={globalScreen}>
-        <Stack.Screen name="login" component={LoginScreen}></Stack.Screen>
+        <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
+        <Stack.Screen name="Register" component={RegisterScreen}></Stack.Screen>
+        <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
