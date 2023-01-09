@@ -26,6 +26,8 @@ const LoginScreen = ({ navigation }: NavProps) => {
   }, []);
 
   const signIn = () => {};
+
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <StatusBar style="light"></StatusBar>
@@ -62,7 +64,7 @@ const LoginScreen = ({ navigation }: NavProps) => {
       >
         Register
       </Button>
-      <View style={{ height: 100 }}></View>
+      <View style={{ height: 50 }}></View>
     </KeyboardAvoidingView>
   );
 };
