@@ -12,12 +12,18 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StackParamsList } from "../navigation/types";
 import { Avatar } from "@rneui/themed";
 import { auth } from "../firebase.js";
+import { signOut } from "firebase/auth";
 
 type Props = {};
 
 type NavProps = NativeStackScreenProps<StackParamsList>;
 
 const HomeScreen = ({ navigation }: NavProps) => {
+  const signOutUser = () => {
+    signOut(auth).then(() => {
+      navigation.replace("Login");
+    });
+  };
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: "UChatFun",
@@ -28,7 +34,7 @@ const HomeScreen = ({ navigation }: NavProps) => {
 
       headerLeft: () => (
         <View>
-          <TouchableOpacity >
+          <TouchableOpacity activeOpacity={0.4} onPress={signOutUser}>
             <Avatar
               rounded
               source={{ uri: auth?.currentUser?.photoURL?.toString() }}

@@ -7,6 +7,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StackParamsList } from "../navigation/types";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase.js";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 type Props = {};
 
@@ -16,17 +17,20 @@ const LoginScreen = ({ navigation }: NavProps) => {
   const [password, setPassword] = React.useState<string>("");
 
   React.useEffect(() => {
-    const unsubscribe=onAuthStateChanged(auth, (authUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
         navigation.replace("Home");
       }
     });
 
-    return unsubscribe
+    return unsubscribe;
   }, []);
 
-  const signIn = () => {};
-
+  const signIn = () => {
+    signInWithEmailAndPassword(auth, email, password).catch((err) =>
+      alert(err)
+    );
+  };
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
