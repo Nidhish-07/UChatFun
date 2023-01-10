@@ -3,4 +3,5 @@ export type StackParamsList = {
   Register: undefined;
   Home: undefined;
   AddChat: undefined;
+  Chat: undefined;
 };

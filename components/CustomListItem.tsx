@@ -5,21 +5,25 @@ import { ListItemContent } from "@rneui/base/dist/ListItem/ListItem.Content";
 import { ListItemTitle } from "@rneui/base/dist/ListItem/ListItem.Title";
 import { ListItemSubtitle } from "@rneui/base/dist/ListItem/ListItem.Subtitle";
 
-type Props = { id?: string; chatName?: string; enterChat?: string };
+type Props = { id?: string; chatName?: string; enterChat: Function };
 
 const CustomListItem = (props: Props) => {
   return (
-    <ListItem>
+    <ListItem
+      key={props.id}
+      bottomDivider
+      onPress={() => props.enterChat(props.id, props.chatName)}
+    >
       <Avatar
         rounded
         source={{ uri: "https://source.unsplash.com/random?person" }}
       />
       <ListItemContent>
-        <ListItemTitle style={{ fontWeight: "800" }}>UChatFun</ListItemTitle>
+        <ListItemTitle style={{ fontWeight: "800" }}>
+          {props.chatName}
+        </ListItemTitle>
         <ListItemSubtitle numberOfLines={2} ellipsizeMode="tail">
-          Testing testing testing Testing testing testing Testing testing
-          testing Testing testing testing Testing testing testing Testing
-          testing testing
+          lorem epsum
         </ListItemSubtitle>
       </ListItemContent>
     </ListItem>

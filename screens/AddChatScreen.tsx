@@ -4,6 +4,8 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StackParamsList } from "../navigation/types";
 import { Input, Button } from "@rneui/themed";
 import { Ionicons } from "@expo/vector-icons";
+import { db } from "../firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 type Props = {};
 
@@ -19,7 +21,13 @@ const AddChatScreen = ({ navigation }: NavProps) => {
     });
   }, [navigation]);
 
-  const createChatHandler = async () => {};
+  const createChatHandler = async () => {
+    await addDoc(collection(db, "chats"), {
+      chatName: inputChat,
+    })
+      .then(() => navigation.goBack())
+      .catch((err) => alert(err.message));
+  };
 
   return (
     <View style={styles.container}>
@@ -28,8 +36,9 @@ const AddChatScreen = ({ navigation }: NavProps) => {
         value={inputChat}
         onChangeText={(text) => setInputChat(text)}
         leftIcon={<Ionicons name="chatbubbles" size={24} color="black" />}
+        onSubmitEditing={createChatHandler}
       ></Input>
-      <Button onPress={() => createChatHandler} title="Create chat"></Button>
+      <Button onPress={createChatHandler} title="Create chat"></Button>
     </View>
   );
 };
@@ -37,5 +46,9 @@ const AddChatScreen = ({ navigation }: NavProps) => {
 export default AddChatScreen;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: "#fff",
+    height: "100%",
+    padding: 25,
+  },
 });

@@ -11,9 +11,10 @@ import CustomListItem from "../components/CustomListItem";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StackParamsList } from "../navigation/types";
 import { Avatar } from "@rneui/themed";
-import { auth } from "../firebase.js";
+import { auth, db } from "../firebase.js";
 import { signOut } from "firebase/auth";
 import { Ionicons } from "@expo/vector-icons";
+import { doc, onSnapshot, collection, Index } from "firebase/firestore";
 
 type Props = {};
 
@@ -25,6 +26,19 @@ const HomeScreen = ({ navigation }: NavProps) => {
       navigation.replace("Login");
     });
   };
+
+  const [chats, setChats] = React.useState<{ id: string; data: string }[]>([]);
+
+  React.useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "chats"), (snapshot) => {
+      setChats(
+        snapshot.docs.map((doc): any => ({ id: doc.id, data: doc.data() }))
+      );
+    });
+
+    return unsubscribe;
+  }, []);
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: "UChatFun",
@@ -65,10 +79,22 @@ const HomeScreen = ({ navigation }: NavProps) => {
     });
   }, []);
 
+  const enterChat = () => {};
+
   return (
     <SafeAreaView>
-      <ScrollView>
-        <CustomListItem></CustomListItem>
+      <ScrollView style={styles.container}>
+        {chats.map((chat) => {
+          const chatName = chat.data;
+          return (
+            <CustomListItem
+              id={chat.id}
+              chatName={chatName}
+              key={chat.id}
+              enterChat={enterChat}
+            ></CustomListItem>
+          );
+        })}
       </ScrollView>
     </SafeAreaView>
   );
@@ -76,4 +102,8 @@ const HomeScreen = ({ navigation }: NavProps) => {
 
 export default HomeScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    height: "100%",
+  },
+});
